@@ -87,7 +87,7 @@ type Configuration struct {
 }
 
 // NewConfiguration returns a new Configuration object
-func NewConfiguration() *Configuration {
+func NewConfiguration(key APIKey) *Configuration {
 	cfg := &Configuration{
 		DefaultHeader:    make(map[string]string),
 		UserAgent:        "OpenAPI-Generator/1.0.0/go",
@@ -101,6 +101,7 @@ func NewConfiguration() *Configuration {
 		OperationServers: map[string]ServerConfigurations{
 		},
 	}
+	cfg.AddDefaultHeader("Authorization", key.Prefix+" "+key.Key)
 	return cfg
 }
 

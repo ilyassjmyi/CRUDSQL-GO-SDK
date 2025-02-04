@@ -141,6 +141,130 @@ Each of these functions takes a value of the given basic type and returns a poin
 - `PtrString`
 - `PtrTime`
 
+# query exmaples
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "log"
+    openapi "your-package/openapi"
+)
+
+func main() {
+    // Initialize client
+    configuration := openapi.NewConfiguration()
+    configuration.Host = "your-api-host"
+    client := openapi.NewAPIClient(configuration)
+    ctx := context.Background()
+
+    // Example 1: Get all records with pagination
+    resp, _, err := client.DynamicAPI.ModelGet(ctx, "users").
+        Page(1).
+        PageSize(10).
+        Sort("name:asc").
+        Execute()
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Printf("Total records: %d\n", *resp.Total)
+
+    // Example 2: Get single record by ID
+    entity, _, err := client.DynamicAPI.ModelIdGet(ctx, "users", "123").Execute()
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Printf("User: %v\n", entity.MainEntity)
+
+    // Example 3: Create new record
+    newEntity := openapi.NewQueryEntityWithRelations()
+    newEntity.SetMainEntity(map[string]interface{}{
+        "name": "John Doe",
+        "email": "john@example.com",
+        "age": 30,
+    })
+    created, _, err := client.DynamicAPI.ModelPost(ctx, "users").
+        Entity(*newEntity).
+        Execute()
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // Example 4: Update record
+    updateEntity := openapi.NewQueryEntityWithRelations()
+    updateEntity.SetMainEntity(map[string]interface{}{
+        "name": "John Smith",
+        "age": 31,
+    })
+    updated, _, err := client.DynamicAPI.ModelIdPut(ctx, "users", "123").
+        Entity(*updateEntity).
+        Execute()
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // Example 5: Delete record
+    _, _, err = client.DynamicAPI.ModelIdDelete(ctx, "users", "123").Execute()
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // Example 6: Complex filtering
+    filter := openapi.NewQueryQueryFilter()
+    filter.SetExpressions([]map[string]interface{}{
+        {
+            "field": "age",
+            "operator": "gte",
+            "value": 18,
+        },
+        {
+            "operator": "AND",
+            "expressions": []map[string]interface{}{
+                {
+                    "field": "status",
+                    "operator": "eq",
+                    "value": "active",
+                },
+            },
+        },
+    })
+
+    filtered, _, err := client.DynamicAPI.ModelFilterPost(ctx, "users").
+        Filter(*filter).
+        Page(1).
+        PageSize(10).
+        Sort("age:desc").
+        Execute()
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // Example 7: Filter with relationship
+    relationFilter := openapi.NewQueryQueryFilter()
+    relationFilter.SetExpressions([]map[string]interface{}{
+        {
+            "relationship": "orders",
+            "expressions": []map[string]interface{}{
+                {
+                    "field": "total",
+                    "operator": "gt",
+                    "value": 1000,
+                },
+            },
+        },
+    })
+
+    usersWithOrders, _, err := client.DynamicAPI.ModelFilterPost(ctx, "users").
+        Filter(*relationFilter).
+        Execute()
+    if err != nil {
+        log.Fatal(err)
+    }
+}
+```
+
 ## Author
 
 taqi@mobix.biz

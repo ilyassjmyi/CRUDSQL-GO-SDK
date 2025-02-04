@@ -20,7 +20,11 @@ import (
 
 func Test_openapi_SchemaAPIService(t *testing.T) {
 
-	configuration := openapiclient.NewConfiguration()
+	apiKey := openapiclient.APIKey{
+		Key:    "your-api-key",
+		Prefix: "Bearer",
+	}
+	configuration := openapiclient.NewConfiguration(apiKey)
 	apiClient := openapiclient.NewAPIClient(configuration)
 
 	t.Run("Test SchemaAPIService ModelSchemaGet", func(t *testing.T) {

@@ -20,7 +20,11 @@ import (
 
 func Test_openapi_DynamicAPIService(t *testing.T) {
 
-	configuration := openapiclient.NewConfiguration()
+	apiKey := openapiclient.APIKey{
+		Key:    "your-api-key",
+		Prefix: "Bearer",
+	}
+	configuration := openapiclient.NewConfiguration(apiKey)
 	apiClient := openapiclient.NewAPIClient(configuration)
 
 	t.Run("Test DynamicAPIService ModelFilterPost", func(t *testing.T) {
