@@ -1,0 +1,476 @@
+openapi: 3.0.1
+info:
+  contact:
+    email: taqi@mobix.biz
+    name: CrudSQL Support
+    url: https://github.com/mobixdev/crudsql
+  description: |-
+    A powerful dynamic CRUD API engine that automatically generates RESTful endpoints for your data models
+    CrudSQL provides automatic CRUD operations, filtering, pagination, and sorting capabilities for any data model.
+    Features:
+    - Automatic REST API generation
+    - Dynamic model support
+    - Complex filtering and querying
+    - Pagination and sorting
+    - Swagger documentation
+    - Multiple database support (SQL & NoSQL)
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  termsOfService: https://github.com/mobixdev/crudsql/blob/main/LICENSE
+  title: CrudSQL API
+  version: 1.0.0
+  x-logo:
+    altText: CrudSQL Logo
+    backgroundColor: '#FFFFFF'
+    url: https://raw.githubusercontent.com/mobixdev/snapbuild_crudsql/main/docs/logo.png
+servers:
+- url: /api
+paths:
+  /{model}:
+    get:
+      description: Get a list of entities. Use query parameters for simple filtering
+        or POST to /filter for complex conditions
+      parameters:
+      - description: Model Name
+        in: path
+        name: model
+        required: true
+        schema:
+          type: string
+      - description: Page number
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Items per page
+        in: query
+        name: pageSize
+        schema:
+          type: integer
+      - description: "Sort field and direction (e.g., name:asc)"
+        in: query
+        name: sort
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/query.FilterResponse'
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.ErrorResponse'
+          description: Bad Request
+      summary: List and filter entities
+      tags:
+      - dynamic
+    post:
+      description: Create a new entity of the specified model type
+      parameters:
+      - description: Model Name
+        in: path
+        name: model
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/query.EntityWithRelations'
+        description: Entity Data
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/query.EntityWithRelations'
+          description: Created
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.ErrorResponse'
+          description: Bad Request
+      summary: Create a new entity
+      tags:
+      - dynamic
+      x-codegen-request-body-name: entity
+  /{model}/filter:
+    post:
+      description: "Filter entities using complex conditions including field expressions,\
+        \ logical operations, and relationship filtering"
+      parameters:
+      - description: Model name
+        in: path
+        name: model
+        required: true
+        schema:
+          type: string
+      - description: Page number
+        in: query
+        name: page
+        schema:
+          default: 1
+          type: integer
+      - description: Items per page
+        in: query
+        name: pageSize
+        schema:
+          default: 10
+          type: integer
+      - description: "Sort field and direction (e.g., name:asc,age:desc)"
+        in: query
+        name: sort
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/query.QueryFilter'
+        description: Filter conditions
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/query.FilterResponse'
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.ErrorResponse'
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.ErrorResponse'
+          description: Not Found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.ErrorResponse'
+          description: Internal Server Error
+      summary: Filter entities
+      tags:
+      - dynamic
+      x-codegen-request-body-name: filter
+  /{model}/schema:
+    get:
+      description: Returns the schema information for a specific model including fields
+        and relationships
+      parameters:
+      - description: Model name
+        in: path
+        name: model
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.ModelSchema'
+          description: OK
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.ErrorResponse'
+          description: Not Found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.ErrorResponse'
+          description: Internal Server Error
+      summary: Get model schema
+      tags:
+      - schema
+  /{model}/{id}:
+    delete:
+      description: Delete an entity by its ID
+      parameters:
+      - description: Model Name
+        in: path
+        name: model
+        required: true
+        schema:
+          type: string
+      - description: Entity ID
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.ErrorResponse'
+          description: OK
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.ErrorResponse'
+          description: Not Found
+      summary: Delete an entity
+      tags:
+      - dynamic
+    get:
+      description: Retrieve a single entity by its ID
+      parameters:
+      - description: Model Name
+        in: path
+        name: model
+        required: true
+        schema:
+          type: string
+      - description: Entity ID
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/query.EntityWithRelations'
+          description: OK
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.ErrorResponse'
+          description: Not Found
+      summary: Get an entity by ID
+      tags:
+      - dynamic
+    put:
+      description: Update an existing entity by its ID
+      parameters:
+      - description: Model Name
+        in: path
+        name: model
+        required: true
+        schema:
+          type: string
+      - description: Entity ID
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/query.EntityWithRelations'
+        description: Entity Data
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/query.EntityWithRelations'
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.ErrorResponse'
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api.ErrorResponse'
+          description: Not Found
+      summary: Update an entity
+      tags:
+      - dynamic
+      x-codegen-request-body-name: entity
+components:
+  schemas:
+    api.ErrorResponse:
+      description: Error response containing an error message
+      example:
+        message: message
+      properties:
+        message:
+          description: '@Description A descriptive error message'
+          type: string
+      type: object
+    api.FieldSchema:
+      description: Schema information for a model field
+      example:
+        operators:
+        - eq
+        - neq
+        - like
+        name: ID
+        type: string
+      properties:
+        name:
+          description: Name of the field
+          example: ID
+          type: string
+        operators:
+          description: List of supported operators for this field
+          example:
+          - eq
+          - neq
+          - like
+          items:
+            type: string
+          type: array
+        type:
+          description: "Type of the field (e.g., string, int)"
+          example: string
+          type: string
+      type: object
+    api.ModelSchema:
+      description: Schema information for a model including fields and relationships
+      example:
+        relationships:
+        - name: Posts
+          type: hasMany
+          relatedModel: Post
+        - name: Posts
+          type: hasMany
+          relatedModel: Post
+        fields:
+        - operators:
+          - eq
+          - neq
+          - like
+          name: ID
+          type: string
+        - operators:
+          - eq
+          - neq
+          - like
+          name: ID
+          type: string
+      properties:
+        fields:
+          description: Fields contains information about each field in the model
+          items:
+            $ref: '#/components/schemas/api.FieldSchema'
+          type: array
+        relationships:
+          description: Relationships contains information about model relationships
+          items:
+            $ref: '#/components/schemas/api.RelationshipSchema'
+          type: array
+      type: object
+    api.RelationshipSchema:
+      description: Schema information for a model relationship
+      example:
+        name: Posts
+        type: hasMany
+        relatedModel: Post
+      properties:
+        name:
+          description: Name of the relationship
+          example: Posts
+          type: string
+        relatedModel:
+          description: Name of the related model
+          example: Post
+          type: string
+        type:
+          description: "Type of relationship (hasOne, hasMany)"
+          example: hasMany
+          type: string
+      type: object
+    query.EntityWithRelations:
+      example:
+        mainEntity: "{}"
+        relations:
+          key:
+          - "{}"
+          - "{}"
+      properties:
+        mainEntity:
+          type: object
+        relations:
+          additionalProperties:
+            items:
+              type: object
+            type: array
+          type: object
+      type: object
+    query.FilterResponse:
+      description: Paginated response containing filtered entities and metadata Used
+        for both simple list operations and complex filtered queries
+      example:
+        total: 1
+        data: "{}"
+        page: 0
+        total_pages: 5
+        page_size: 6
+      properties:
+        data:
+          description: |-
+            @Description Array of entities matching the filter conditions
+            @Description For relationship queries, includes related entities based on the filter
+          type: object
+        page:
+          description: |-
+            @Description Current page number (1-based indexing)
+            @Description Example: page=2 returns the second page of results
+          type: integer
+        page_size:
+          description: |-
+            @Description Number of items per page (default may vary)
+            @Description Example: page_size=20 returns 20 items per page
+          type: integer
+        total:
+          description: |-
+            @Description Total number of records matching the filter conditions
+            @Description Used for calculating pagination metadata
+          type: integer
+        total_pages:
+          description: |-
+            @Description Total number of pages based on total records and page size
+            @Description Calculated as ceil(total/page_size)
+          type: integer
+      type: object
+    query.QueryFilter:
+      description: "Filter conditions for querying entities using complex expressions\
+        \ Supports logical operations (AND, OR, NOT), field comparisons, and relationship\
+        \ filtering Example: { \"expressions\": [ {\"field\": \"age\", \"operator\"\
+        : \"gte\", \"value\": 18}, { \"operator\": \"AND\", \"expressions\": [ {\"\
+        field\": \"status\", \"operator\": \"eq\", \"value\": \"active\"} ] } ] }"
+      properties:
+        expressions:
+          description: |-
+            @Description Array of expressions to filter entities
+            @Description Each expression can be a FieldExpression, LogicalExpression, or RelationshipExpression
+          items:
+            type: object
+          type: array
+      type: object
+  securitySchemes:
+    BasicAuth:
+      scheme: basic
+      type: http
+x-original-swagger-version: "2.0"
