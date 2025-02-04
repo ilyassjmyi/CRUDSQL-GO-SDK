@@ -11,10 +11,11 @@ package openapi
 
 import (
 	"context"
+	"testing"
+
+	openapiclient "github.com/ilyassjmyi/CRUDSQL-GO-SDK"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func Test_openapi_DynamicAPIService(t *testing.T) {
@@ -24,7 +25,7 @@ func Test_openapi_DynamicAPIService(t *testing.T) {
 
 	t.Run("Test DynamicAPIService ModelFilterPost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var model string
 
@@ -38,7 +39,7 @@ func Test_openapi_DynamicAPIService(t *testing.T) {
 
 	t.Run("Test DynamicAPIService ModelGet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var model string
 
@@ -52,7 +53,7 @@ func Test_openapi_DynamicAPIService(t *testing.T) {
 
 	t.Run("Test DynamicAPIService ModelIdDelete", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var model string
 		var id string
@@ -67,7 +68,7 @@ func Test_openapi_DynamicAPIService(t *testing.T) {
 
 	t.Run("Test DynamicAPIService ModelIdGet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var model string
 		var id string
@@ -82,7 +83,7 @@ func Test_openapi_DynamicAPIService(t *testing.T) {
 
 	t.Run("Test DynamicAPIService ModelIdPut", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var model string
 		var id string
@@ -97,7 +98,7 @@ func Test_openapi_DynamicAPIService(t *testing.T) {
 
 	t.Run("Test DynamicAPIService ModelPost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var model string
 

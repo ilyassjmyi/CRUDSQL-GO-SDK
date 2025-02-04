@@ -1,20 +1,16 @@
 # \SchemaAPI
 
-All URIs are relative to */api*
+All URIs are relative to _/api_
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**ModelSchemaGet**](SchemaAPI.md#ModelSchemaGet) | **Get** /{model}/schema | Get model schema
-
-
+| Method                                            | HTTP request            | Description      |
+| ------------------------------------------------- | ----------------------- | ---------------- |
+| [**ModelSchemaGet**](SchemaAPI.md#ModelSchemaGet) | **Get** /{model}/schema | Get model schema |
 
 ## ModelSchemaGet
 
 > ApiModelSchema ModelSchemaGet(ctx, model).Execute()
 
 Get model schema
-
-
 
 ### Example
 
@@ -25,7 +21,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/ilyassjmyi/CRUDSQL-GO-SDK"
 )
 
 func main() {
@@ -45,20 +41,17 @@ func main() {
 
 ### Path Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**model** | **string** | Model name | 
+| Name      | Type                | Description                                                                 | Notes |
+| --------- | ------------------- | --------------------------------------------------------------------------- | ----- |
+| **ctx**   | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
+| **model** | **string**          | Model name                                                                  |
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiModelSchemaGetRequest struct via the builder pattern
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
 
 ### Return type
 
@@ -76,4 +69,3 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
-

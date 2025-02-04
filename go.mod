@@ -1,5 +1,5 @@
-module github.com/GIT_USER_ID/GIT_REPO_ID
-
+module github.com/ilyassjmyi/CRUDSQL-GO-SDK
+ 
 go 1.18
 
 require github.com/stretchr/testify v1.10.0

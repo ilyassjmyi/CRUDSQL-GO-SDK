@@ -1,25 +1,21 @@
 # \DynamicAPI
 
-All URIs are relative to */api*
+All URIs are relative to _/api_
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**ModelFilterPost**](DynamicAPI.md#ModelFilterPost) | **Post** /{model}/filter | Filter entities
-[**ModelGet**](DynamicAPI.md#ModelGet) | **Get** /{model} | List and filter entities
-[**ModelIdDelete**](DynamicAPI.md#ModelIdDelete) | **Delete** /{model}/{id} | Delete an entity
-[**ModelIdGet**](DynamicAPI.md#ModelIdGet) | **Get** /{model}/{id} | Get an entity by ID
-[**ModelIdPut**](DynamicAPI.md#ModelIdPut) | **Put** /{model}/{id} | Update an entity
-[**ModelPost**](DynamicAPI.md#ModelPost) | **Post** /{model} | Create a new entity
-
-
+| Method                                               | HTTP request             | Description              |
+| ---------------------------------------------------- | ------------------------ | ------------------------ |
+| [**ModelFilterPost**](DynamicAPI.md#ModelFilterPost) | **Post** /{model}/filter | Filter entities          |
+| [**ModelGet**](DynamicAPI.md#ModelGet)               | **Get** /{model}         | List and filter entities |
+| [**ModelIdDelete**](DynamicAPI.md#ModelIdDelete)     | **Delete** /{model}/{id} | Delete an entity         |
+| [**ModelIdGet**](DynamicAPI.md#ModelIdGet)           | **Get** /{model}/{id}    | Get an entity by ID      |
+| [**ModelIdPut**](DynamicAPI.md#ModelIdPut)           | **Put** /{model}/{id}    | Update an entity         |
+| [**ModelPost**](DynamicAPI.md#ModelPost)             | **Post** /{model}        | Create a new entity      |
 
 ## ModelFilterPost
 
 > QueryFilterResponse ModelFilterPost(ctx, model).Filter(filter).Page(page).PageSize(pageSize).Sort(sort).Execute()
 
 Filter entities
-
-
 
 ### Example
 
@@ -30,7 +26,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/ilyassjmyi/CRUDSQL-GO-SDK"
 )
 
 func main() {
@@ -54,24 +50,22 @@ func main() {
 
 ### Path Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**model** | **string** | Model name | 
+| Name      | Type                | Description                                                                 | Notes |
+| --------- | ------------------- | --------------------------------------------------------------------------- | ----- |
+| **ctx**   | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
+| **model** | **string**          | Model name                                                                  |
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiModelFilterPostRequest struct via the builder pattern
 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **filter** | [**QueryQueryFilter**](QueryQueryFilter.md) | Filter conditions | 
- **page** | **int32** | Page number | [default to 1]
- **pageSize** | **int32** | Items per page | [default to 10]
- **sort** | **string** | Sort field and direction (e.g., name:asc,age:desc) | 
+**filter** | [**QueryQueryFilter**](QueryQueryFilter.md) | Filter conditions |
+**page** | **int32** | Page number | [default to 1]
+**pageSize** | **int32** | Items per page | [default to 10]
+**sort** | **string** | Sort field and direction (e.g., name:asc,age:desc) |
 
 ### Return type
 
@@ -90,14 +84,11 @@ No authorization required
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
-
 ## ModelGet
 
 > QueryFilterResponse ModelGet(ctx, model).Page(page).PageSize(pageSize).Sort(sort).Execute()
 
 List and filter entities
-
-
 
 ### Example
 
@@ -108,7 +99,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/ilyassjmyi/CRUDSQL-GO-SDK"
 )
 
 func main() {
@@ -131,23 +122,21 @@ func main() {
 
 ### Path Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**model** | **string** | Model Name | 
+| Name      | Type                | Description                                                                 | Notes |
+| --------- | ------------------- | --------------------------------------------------------------------------- | ----- |
+| **ctx**   | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
+| **model** | **string**          | Model Name                                                                  |
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiModelGetRequest struct via the builder pattern
 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **page** | **int32** | Page number | 
- **pageSize** | **int32** | Items per page | 
- **sort** | **string** | Sort field and direction (e.g., name:asc) | 
+**page** | **int32** | Page number |
+**pageSize** | **int32** | Items per page |
+**sort** | **string** | Sort field and direction (e.g., name:asc) |
 
 ### Return type
 
@@ -166,14 +155,11 @@ No authorization required
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
-
 ## ModelIdDelete
 
 > ApiErrorResponse ModelIdDelete(ctx, model, id).Execute()
 
 Delete an entity
-
-
 
 ### Example
 
@@ -184,7 +170,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/ilyassjmyi/CRUDSQL-GO-SDK"
 )
 
 func main() {
@@ -205,22 +191,18 @@ func main() {
 
 ### Path Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**model** | **string** | Model Name | 
-**id** | **string** | Entity ID | 
+| Name      | Type                | Description                                                                 | Notes |
+| --------- | ------------------- | --------------------------------------------------------------------------- | ----- |
+| **ctx**   | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
+| **model** | **string**          | Model Name                                                                  |
+| **id**    | **string**          | Entity ID                                                                   |
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiModelIdDeleteRequest struct via the builder pattern
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
-
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
 
 ### Return type
 
@@ -239,14 +221,11 @@ No authorization required
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
-
 ## ModelIdGet
 
 > QueryEntityWithRelations ModelIdGet(ctx, model, id).Execute()
 
 Get an entity by ID
-
-
 
 ### Example
 
@@ -257,7 +236,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/ilyassjmyi/CRUDSQL-GO-SDK"
 )
 
 func main() {
@@ -278,22 +257,18 @@ func main() {
 
 ### Path Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**model** | **string** | Model Name | 
-**id** | **string** | Entity ID | 
+| Name      | Type                | Description                                                                 | Notes |
+| --------- | ------------------- | --------------------------------------------------------------------------- | ----- |
+| **ctx**   | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
+| **model** | **string**          | Model Name                                                                  |
+| **id**    | **string**          | Entity ID                                                                   |
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiModelIdGetRequest struct via the builder pattern
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
-
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
 
 ### Return type
 
@@ -312,14 +287,11 @@ No authorization required
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
-
 ## ModelIdPut
 
 > QueryEntityWithRelations ModelIdPut(ctx, model, id).Entity(entity).Execute()
 
 Update an entity
-
-
 
 ### Example
 
@@ -330,7 +302,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/ilyassjmyi/CRUDSQL-GO-SDK"
 )
 
 func main() {
@@ -352,23 +324,20 @@ func main() {
 
 ### Path Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**model** | **string** | Model Name | 
-**id** | **string** | Entity ID | 
+| Name      | Type                | Description                                                                 | Notes |
+| --------- | ------------------- | --------------------------------------------------------------------------- | ----- |
+| **ctx**   | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
+| **model** | **string**          | Model Name                                                                  |
+| **id**    | **string**          | Entity ID                                                                   |
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiModelIdPutRequest struct via the builder pattern
 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
-
- **entity** | [**QueryEntityWithRelations**](QueryEntityWithRelations.md) | Entity Data | 
+**entity** | [**QueryEntityWithRelations**](QueryEntityWithRelations.md) | Entity Data |
 
 ### Return type
 
@@ -387,14 +356,11 @@ No authorization required
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
-
 ## ModelPost
 
 > QueryEntityWithRelations ModelPost(ctx, model).Entity(entity).Execute()
 
 Create a new entity
-
-
 
 ### Example
 
@@ -405,7 +371,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/ilyassjmyi/CRUDSQL-GO-SDK"
 )
 
 func main() {
@@ -426,21 +392,19 @@ func main() {
 
 ### Path Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**model** | **string** | Model Name | 
+| Name      | Type                | Description                                                                 | Notes |
+| --------- | ------------------- | --------------------------------------------------------------------------- | ----- |
+| **ctx**   | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc. |
+| **model** | **string**          | Model Name                                                                  |
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiModelPostRequest struct via the builder pattern
 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **entity** | [**QueryEntityWithRelations**](QueryEntityWithRelations.md) | Entity Data | 
+**entity** | [**QueryEntityWithRelations**](QueryEntityWithRelations.md) | Entity Data |
 
 ### Return type
 
@@ -458,4 +422,3 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
-
