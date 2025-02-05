@@ -14,12 +14,13 @@ package openapi
 import (
 	"bytes"
 	"context"
+	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"net/url"
 	"strings"
 )
-
 
 // DynamicAPIService DynamicAPI service
 type DynamicAPIService service
@@ -47,7 +48,7 @@ func (r ApiModelFilterPostRequest) Page(page int32) ApiModelFilterPostRequest {
 }
 
 // Items per page
-func (r ApiModelFilterPostRequest) limit(pageSize int32) ApiModelFilterPostRequest {
+func (r ApiModelFilterPostRequest) Limit(pageSize int32) ApiModelFilterPostRequest {
 	r.pageSize = &pageSize
 	return r
 }
@@ -540,6 +541,7 @@ func (a *DynamicAPIService) ModelIdGetExecute(r ApiModelIdGetRequest) (*QueryEnt
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -583,7 +585,23 @@ func (a *DynamicAPIService) ModelIdGetExecute(r ApiModelIdGetRequest) (*QueryEnt
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarReturnValue, localVarHTTPResponse, nil
+	var rawEntity map[string]interface{}
+    if err := json.Unmarshal(localVarBody, &rawEntity); err != nil {
+        newErr := &GenericOpenAPIError{
+            body: localVarBody,
+            error: fmt.Sprintf("Failed to parse response: %v", err),
+        }
+        return nil, localVarHTTPResponse, newErr
+    }
+
+    // Create QueryFilterResponse with the entity as the data
+    localVarReturnValue = &QueryEntityWithRelations{
+		MainEntity: rawEntity,
+    }
+
+   
+    return localVarReturnValue, localVarHTTPResponse, nil
+
 }
 
 type ApiModelIdPutRequest struct {
