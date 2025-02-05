@@ -16,114 +16,155 @@ import (
 )
 
 // checks if the QueryEntityWithRelations type satisfies the MappedNullable interface at compile time
+// checks if the QueryEntityWithRelations type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &QueryEntityWithRelations{}
 
 // QueryEntityWithRelations struct for QueryEntityWithRelations
 type QueryEntityWithRelations struct {
-	MainEntity map[string]interface{} `json:"mainEntity,omitempty"`
-	Relations *map[string][]map[string]interface{} `json:"relations,omitempty"`
+    MainEntity json.RawMessage `json:"mainEntity,omitempty"`
+    Relations *map[string][]map[string]interface{} `json:"relations,omitempty"`
 }
 
 // NewQueryEntityWithRelations instantiates a new QueryEntityWithRelations object
-// This constructor will assign default values to properties that have it defined,
-// and makes sure properties required by API are set, but the set of arguments
-// will change when the set of required properties is changed
 func NewQueryEntityWithRelations() *QueryEntityWithRelations {
-	this := QueryEntityWithRelations{}
-	return &this
+    this := QueryEntityWithRelations{}
+    return &this
 }
 
-// NewQueryEntityWithRelationsWithDefaults instantiates a new QueryEntityWithRelations object
-// This constructor will only assign default values to properties that have it defined,
-// but it doesn't guarantee that properties required by API are set
+// NewQueryEntityWithRelationsWithDefaults instantiates a new QueryEntityWithRelations object with defaults
 func NewQueryEntityWithRelationsWithDefaults() *QueryEntityWithRelations {
-	this := QueryEntityWithRelations{}
-	return &this
+    this := QueryEntityWithRelations{}
+    return &this
 }
 
-// GetMainEntity returns the MainEntity field value if set, zero value otherwise.
+// GetMainEntity returns the MainEntity field value as map[string]interface{}
 func (o *QueryEntityWithRelations) GetMainEntity() map[string]interface{} {
-	if o == nil || IsNil(o.MainEntity) {
-		var ret map[string]interface{}
-		return ret
-	}
-	return o.MainEntity
+    if o == nil || len(o.MainEntity) == 0 {
+        return nil
+    }
+    
+    var result map[string]interface{}
+    err := json.Unmarshal(o.MainEntity, &result)
+    if err != nil {
+        return nil
+    }
+    return result
+}
+
+// GetMainEntityRaw returns the raw JSON data
+func (o *QueryEntityWithRelations) GetMainEntityRaw() json.RawMessage {
+    if o == nil {
+        return nil
+    }
+    return o.MainEntity
 }
 
 // GetMainEntityOk returns a tuple with the MainEntity field value if set, nil otherwise
-// and a boolean to check if the value has been set.
 func (o *QueryEntityWithRelations) GetMainEntityOk() (map[string]interface{}, bool) {
-	if o == nil || IsNil(o.MainEntity) {
-		return map[string]interface{}{}, false
-	}
-	return o.MainEntity, true
+    if o == nil || len(o.MainEntity) == 0 {
+        return nil, false
+    }
+    
+    var result map[string]interface{}
+    err := json.Unmarshal(o.MainEntity, &result)
+    if err != nil {
+        return nil, false
+    }
+    return result, true
 }
 
-// HasMainEntity returns a boolean if a field has been set.
+// HasMainEntity returns a boolean if a field has been set
 func (o *QueryEntityWithRelations) HasMainEntity() bool {
-	if o != nil && !IsNil(o.MainEntity) {
-		return true
-	}
-
-	return false
+    return o != nil && len(o.MainEntity) > 0
 }
 
-// SetMainEntity gets a reference to the given map[string]interface{} and assigns it to the MainEntity field.
-func (o *QueryEntityWithRelations) SetMainEntity(v map[string]interface{}) {
-	o.MainEntity = v
+// SetMainEntity sets the MainEntity field
+func (o *QueryEntityWithRelations) SetMainEntity(v interface{}) error {
+    if v == nil {
+        o.MainEntity = nil
+        return nil
+    }
+    
+    data, err := json.Marshal(v)
+    if err != nil {
+        return err
+    }
+    o.MainEntity = data
+    return nil
 }
 
-// GetRelations returns the Relations field value if set, zero value otherwise.
+// GetRelations returns the Relations field value if set
 func (o *QueryEntityWithRelations) GetRelations() map[string][]map[string]interface{} {
-	if o == nil || IsNil(o.Relations) {
-		var ret map[string][]map[string]interface{}
-		return ret
-	}
-	return *o.Relations
+    if o == nil || IsNil(o.Relations) {
+        var ret map[string][]map[string]interface{}
+        return ret
+    }
+    return *o.Relations
 }
 
-// GetRelationsOk returns a tuple with the Relations field value if set, nil otherwise
-// and a boolean to check if the value has been set.
+// GetRelationsOk returns a tuple with the Relations field value if set
 func (o *QueryEntityWithRelations) GetRelationsOk() (*map[string][]map[string]interface{}, bool) {
-	if o == nil || IsNil(o.Relations) {
-		return nil, false
-	}
-	return o.Relations, true
+    if o == nil || IsNil(o.Relations) {
+        return nil, false
+    }
+    return o.Relations, true
 }
 
-// HasRelations returns a boolean if a field has been set.
+// HasRelations returns a boolean if Relations field has been set
 func (o *QueryEntityWithRelations) HasRelations() bool {
-	if o != nil && !IsNil(o.Relations) {
-		return true
-	}
-
-	return false
+    return o != nil && !IsNil(o.Relations)
 }
 
-// SetRelations gets a reference to the given map[string][]map[string]interface{} and assigns it to the Relations field.
+// SetRelations sets the Relations field
 func (o *QueryEntityWithRelations) SetRelations(v map[string][]map[string]interface{}) {
-	o.Relations = &v
+    o.Relations = &v
 }
 
 func (o QueryEntityWithRelations) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
-	if err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(toSerialize)
+    toSerialize, err := o.ToMap()
+    if err != nil {
+        return []byte{}, err
+    }
+    return json.Marshal(toSerialize)
 }
 
 func (o QueryEntityWithRelations) ToMap() (map[string]interface{}, error) {
-	toSerialize := map[string]interface{}{}
-	if !IsNil(o.MainEntity) {
-		toSerialize["mainEntity"] = o.MainEntity
-	}
-	if !IsNil(o.Relations) {
-		toSerialize["relations"] = o.Relations
-	}
-	return toSerialize, nil
+    toSerialize := map[string]interface{}{}
+    if len(o.MainEntity) > 0 {
+        var mainEntity interface{}
+        err := json.Unmarshal(o.MainEntity, &mainEntity)
+        if err != nil {
+            return nil, err
+        }
+        toSerialize["mainEntity"] = mainEntity
+    }
+    if !IsNil(o.Relations) {
+        toSerialize["relations"] = o.Relations
+    }
+    return toSerialize, nil
 }
 
+// UnmarshalJSON handles both direct object and wrapped object cases
+func (o *QueryEntityWithRelations) UnmarshalJSON(data []byte) error {
+    // Try first as a direct object
+    var directObject map[string]interface{}
+    if err := json.Unmarshal(data, &directObject); err == nil {
+        if _, hasMainEntity := directObject["mainEntity"]; hasMainEntity {
+            // This is the normal case, unmarshal normally
+            type Alias QueryEntityWithRelations
+            var tmp Alias
+            if err := json.Unmarshal(data, &tmp); err != nil {
+                return err
+            }
+            *o = QueryEntityWithRelations(tmp)
+            return nil
+        }
+        // If no mainEntity field, treat the whole object as mainEntity
+        o.MainEntity = data
+        return nil
+    }
+    return nil
+}
 type NullableQueryEntityWithRelations struct {
 	value *QueryEntityWithRelations
 	isSet bool
