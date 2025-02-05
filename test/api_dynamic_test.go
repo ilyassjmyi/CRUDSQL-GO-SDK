@@ -33,7 +33,7 @@ func Test_openapi_DynamicAPIService(t *testing.T) {
 
 		var model string
 
-		resp, httpRes, err := apiClient.DynamicAPI.ModelFilterPost(context.Background(), model).Execute()
+		resp, httpRes, err := apiClient.DynamicAPI.GetWhere(context.Background(), model).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -47,7 +47,7 @@ func Test_openapi_DynamicAPIService(t *testing.T) {
 
 		var model string
 
-		resp, httpRes, err := apiClient.DynamicAPI.ModelGet(context.Background(), model).Execute()
+		resp, httpRes, err := apiClient.DynamicAPI.GetAll(context.Background(), model).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -62,7 +62,7 @@ func Test_openapi_DynamicAPIService(t *testing.T) {
 		var model string
 		var id string
 
-		resp, httpRes, err := apiClient.DynamicAPI.ModelIdDelete(context.Background(), model, id).Execute()
+		resp, httpRes, err := apiClient.DynamicAPI.DeleteById(context.Background(), model, id).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -77,7 +77,7 @@ func Test_openapi_DynamicAPIService(t *testing.T) {
 		var model string
 		var id string
 
-		resp, httpRes, err := apiClient.DynamicAPI.ModelIdGet(context.Background(), model, id).Execute()
+		resp, httpRes, err := apiClient.DynamicAPI.GetById(context.Background(), model, id).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -92,7 +92,7 @@ func Test_openapi_DynamicAPIService(t *testing.T) {
 		var model string
 		var id string
 
-		resp, httpRes, err := apiClient.DynamicAPI.ModelIdPut(context.Background(), model, id).Execute()
+		resp, httpRes, err := apiClient.DynamicAPI.UpdateById(context.Background(), model, id).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -106,7 +106,7 @@ func Test_openapi_DynamicAPIService(t *testing.T) {
 
 		var model string
 
-		resp, httpRes, err := apiClient.DynamicAPI.ModelPost(context.Background(), model).Execute()
+		resp, httpRes, err := apiClient.DynamicAPI.Create(context.Background(), model).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

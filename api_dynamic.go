@@ -35,7 +35,7 @@ type ApiModelFilterPostRequest struct {
 }
 
 // Filter conditions
-func (r ApiModelFilterPostRequest) Filter(filter QueryQueryFilter) ApiModelFilterPostRequest {
+func (r ApiModelFilterPostRequest) Where(filter QueryQueryFilter) ApiModelFilterPostRequest {
 	r.filter = &filter
 	return r
 }
@@ -71,7 +71,9 @@ Filter entities using complex conditions including field expressions, logical op
  @param model Model name
  @return ApiModelFilterPostRequest
 */
-func (a *DynamicAPIService) ModelFilterPost(ctx context.Context, model string) ApiModelFilterPostRequest {
+
+
+func (a *DynamicAPIService) GetWhere(ctx context.Context, model string) ApiModelFilterPostRequest {
 	return ApiModelFilterPostRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -247,7 +249,7 @@ Get a list of entities. Use query parameters for simple filtering or POST to /fi
  @param model Model Name
  @return ApiModelGetRequest
 */
-func (a *DynamicAPIService) ModelGet(ctx context.Context, model string) ApiModelGetRequest {
+func (a *DynamicAPIService) GetAll(ctx context.Context, model string) ApiModelGetRequest {
 	return ApiModelGetRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -371,7 +373,7 @@ Delete an entity by its ID
  @param id Entity ID
  @return ApiModelIdDeleteRequest
 */
-func (a *DynamicAPIService) ModelIdDelete(ctx context.Context, model string, id string) ApiModelIdDeleteRequest {
+func (a *DynamicAPIService) DeleteById(ctx context.Context, model string, id string) ApiModelIdDeleteRequest {
 	return ApiModelIdDeleteRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -488,7 +490,7 @@ Retrieve a single entity by its ID
  @param id Entity ID
  @return ApiModelIdGetRequest
 */
-func (a *DynamicAPIService) ModelIdGet(ctx context.Context, model string, id string) ApiModelIdGetRequest {
+func (a *DynamicAPIService) GetById(ctx context.Context, model string, id string) ApiModelIdGetRequest {
 	return ApiModelIdGetRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -612,7 +614,7 @@ Update an existing entity by its ID
  @param id Entity ID
  @return ApiModelIdPutRequest
 */
-func (a *DynamicAPIService) ModelIdPut(ctx context.Context, model string, id string) ApiModelIdPutRequest {
+func (a *DynamicAPIService) UpdateById(ctx context.Context, model string, id string) ApiModelIdPutRequest {
 	return ApiModelIdPutRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -750,7 +752,7 @@ Create a new entity of the specified model type
  @param model Model Name
  @return ApiModelPostRequest
 */
-func (a *DynamicAPIService) ModelPost(ctx context.Context, model string) ApiModelPostRequest {
+func (a *DynamicAPIService) Create(ctx context.Context, model string) ApiModelPostRequest {
 	return ApiModelPostRequest{
 		ApiService: a,
 		ctx: ctx,
