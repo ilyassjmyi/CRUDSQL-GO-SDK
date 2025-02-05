@@ -42,7 +42,7 @@ func (o *QueryFilterResponse) GetData() json.RawMessage {
 }
 
 // GetDataAsArray attempts to parse the Data field as an array of interface{}
-func (o *QueryFilterResponse) GetDataAsArray() ([]interface{}, error) {
+func (o *QueryFilterResponse) GetMany() ([]interface{}, error) {
 	if o == nil || IsNil(o.Data) {
 		return nil, nil
 	}
@@ -52,7 +52,7 @@ func (o *QueryFilterResponse) GetDataAsArray() ([]interface{}, error) {
 }
 
 // GetDataAsMap attempts to parse the Data field as a map[string]interface{}
-func (o *QueryFilterResponse) GetDataAsMap() (map[string]interface{}, error) {
+func (o *QueryFilterResponse) GetOne() (map[string]interface{}, error) {
 	if o == nil || IsNil(o.Data) {
 		return nil, nil
 	}
