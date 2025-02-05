@@ -477,7 +477,7 @@ type ApiModelIdGetRequest struct {
 	id string
 }
 
-func (r ApiModelIdGetRequest) Execute() (*QueryEntityWithRelations, *http.Response, error) {
+func (r ApiModelIdGetRequest) Execute() (*QueryFilterResponse, *http.Response, error) {
 	return r.ApiService.ModelIdGetExecute(r)
 }
 
@@ -502,12 +502,12 @@ func (a *DynamicAPIService) GetById(ctx context.Context, model string, id string
 
 // Execute executes the request
 //  @return QueryEntityWithRelations
-func (a *DynamicAPIService) ModelIdGetExecute(r ApiModelIdGetRequest) (*QueryEntityWithRelations, *http.Response, error) {
+func (a *DynamicAPIService) ModelIdGetExecute(r ApiModelIdGetRequest) (*QueryFilterResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *QueryEntityWithRelations
+		localVarReturnValue  *QueryFilterResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DynamicAPIService.ModelIdGet")
@@ -595,11 +595,11 @@ func (a *DynamicAPIService) ModelIdGetExecute(r ApiModelIdGetRequest) (*QueryEnt
     }
 
     // Create QueryFilterResponse with the entity as the data
-    localVarReturnValue = &QueryEntityWithRelations{
-		MainEntity: rawEntity,
+    localVarReturnValue = &QueryFilterResponse{
+		Data: DataWrapper{
+            Value: rawEntity,
+        },
     }
-
-   
     return localVarReturnValue, localVarHTTPResponse, nil
 
 }
