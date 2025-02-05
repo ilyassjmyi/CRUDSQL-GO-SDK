@@ -220,31 +220,36 @@ func (o *QueryFilterResponse) SetTotalPages(v int32) {
 }
 
 func (o QueryFilterResponse) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
-	if err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(toSerialize)
+    toSerialize, err := o.ToMap()
+    if err != nil {
+        return []byte{}, err
+    }
+    return json.Marshal(toSerialize)
 }
 
 func (o QueryFilterResponse) ToMap() (map[string]interface{}, error) {
-	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Data) {
-		toSerialize["data"] = o.Data
-	}
-	if !IsNil(o.Page) {
-		toSerialize["page"] = o.Page
-	}
-	if !IsNil(o.PageSize) {
-		toSerialize["page_size"] = o.PageSize
-	}
-	if !IsNil(o.Total) {
-		toSerialize["total"] = o.Total
-	}
-	if !IsNil(o.TotalPages) {
-		toSerialize["total_pages"] = o.TotalPages
-	}
-	return toSerialize, nil
+    toSerialize := map[string]interface{}{}
+    if !IsNil(o.Data) {
+        var data interface{}
+        err := json.Unmarshal(o.Data, &data)
+        if err != nil {
+            return nil, err
+        }
+        toSerialize["data"] = data
+    }
+    if !IsNil(o.Page) {
+        toSerialize["page"] = o.Page
+    }
+    if !IsNil(o.PageSize) {
+        toSerialize["page_size"] = o.PageSize
+    }
+    if !IsNil(o.Total) {
+        toSerialize["total"] = o.Total
+    }
+    if !IsNil(o.TotalPages) {
+        toSerialize["total_pages"] = o.TotalPages
+    }
+    return toSerialize, nil
 }
 
 type NullableQueryFilterResponse struct {
