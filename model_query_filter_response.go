@@ -21,7 +21,7 @@ var _ MappedNullable = &QueryFilterResponse{}
 // QueryFilterResponse Paginated response containing filtered entities and metadata Used for both simple list operations and complex filtered queries
 type QueryFilterResponse struct {
 	// @Description Array of entities matching the filter conditions @Description For relationship queries, includes related entities based on the filter
-	Data map[string]interface{} `json:"data,omitempty"`
+    Data json.RawMessage `json:"data,omitempty"`
 	// @Description Current page number (1-based indexing) @Description Example: page=2 returns the second page of results
 	Page *int32 `json:"page,omitempty"`
 	// @Description Number of items per page (default may vary) @Description Example: page_size=20 returns 20 items per page
@@ -50,19 +50,19 @@ func NewQueryFilterResponseWithDefaults() *QueryFilterResponse {
 }
 
 // GetData returns the Data field value if set, zero value otherwise.
-func (o *QueryFilterResponse) GetData() map[string]interface{} {
-	if o == nil || IsNil(o.Data) {
-		var ret map[string]interface{}
-		return ret
-	}
-	return o.Data
+func (o *QueryFilterResponse) GetData() json.RawMessage {
+    if o == nil || IsNil(o.Data) {
+        return nil
+    }
+    return o.Data
 }
+
 
 // GetDataOk returns a tuple with the Data field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *QueryFilterResponse) GetDataOk() (map[string]interface{}, bool) {
+func (o *QueryFilterResponse) GetDataOk() (json.RawMessage , bool) {
 	if o == nil || IsNil(o.Data) {
-		return map[string]interface{}{}, false
+		return nil, false
 	}
 	return o.Data, true
 }
@@ -77,8 +77,18 @@ func (o *QueryFilterResponse) HasData() bool {
 }
 
 // SetData gets a reference to the given map[string]interface{} and assigns it to the Data field.
-func (o *QueryFilterResponse) SetData(v map[string]interface{}) {
-	o.Data = v
+func (o *QueryFilterResponse) SetData(v interface{}) error {
+    if v == nil {
+        o.Data = nil
+        return nil
+    }
+    
+    data, err := json.Marshal(v)
+    if err != nil {
+        return err
+    }
+    o.Data = data
+    return nil
 }
 
 // GetPage returns the Page field value if set, zero value otherwise.
