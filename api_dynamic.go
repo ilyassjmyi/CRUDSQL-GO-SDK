@@ -48,7 +48,7 @@ func (r ApiModelFilterPostRequest) Page(page int32) ApiModelFilterPostRequest {
 }
 
 // Items per page
-func (r ApiModelFilterPostRequest) Limit(pageSize int32) ApiModelFilterPostRequest {
+func (r ApiModelFilterPostRequest) 	PageSize(pageSize int32) ApiModelFilterPostRequest {
 	r.pageSize = &pageSize
 	return r
 }
@@ -226,7 +226,7 @@ func (r ApiModelGetRequest) Page(page int32) ApiModelGetRequest {
 }
 
 // Items per page
-func (r ApiModelGetRequest) limit(pageSize int32) ApiModelGetRequest {
+func (r ApiModelGetRequest) 	PageSize(pageSize int32) ApiModelGetRequest {
 	r.pageSize = &pageSize
 	return r
 }
