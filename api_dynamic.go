@@ -1012,8 +1012,14 @@ type ApiModelFilterPutRequest struct {
 	ApiService *DynamicAPIService
 	model string
 	entity *QueryEntityWithRelations
+	filter *QueryQueryFilter
 }
 
+// Filter conditions
+func (r ApiModelFilterPutRequest) Filter(filter QueryQueryFilter) ApiModelFilterPutRequest {
+	r.filter = &filter
+	return r
+}
 // Entity Data
 func (r ApiModelFilterPutRequest) Entity(entity QueryEntityWithRelations) ApiModelFilterPutRequest {
 	r.entity = &entity
@@ -1050,7 +1056,6 @@ func (a *DynamicAPIService) ModelFilterPutExecute(r ApiModelFilterPutRequest) (m
 		formFiles            []formFile
 		localVarReturnValue  map[string]interface{}
 	)
-
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DynamicAPIService.ModelFilterPut")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
@@ -1063,6 +1068,9 @@ func (a *DynamicAPIService) ModelFilterPutExecute(r ApiModelFilterPutRequest) (m
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 	if r.entity == nil {
+		return localVarReturnValue, nil, reportError("entity is required and must be specified")
+	}
+	if r.filter == nil {
 		return localVarReturnValue, nil, reportError("entity is required and must be specified")
 	}
 
@@ -1084,7 +1092,12 @@ func (a *DynamicAPIService) ModelFilterPutExecute(r ApiModelFilterPutRequest) (m
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.entity
+	
+	localVarPostBody = map[string]interface{}{
+		"MainEntity":  r.entity.MainEntity,
+		"Relations" : r.entity.Relations,
+		"expressions": r.filter.Expressions,
+	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
