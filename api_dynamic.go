@@ -226,7 +226,7 @@ func (r ApiModelGetRequest) Page(page int32) ApiModelGetRequest {
 }
 
 // Items per page
-func (r ApiModelGetRequest) 	PageSize(pageSize int32) ApiModelGetRequest {
+func (r ApiModelGetRequest) PageSize(pageSize int32) ApiModelGetRequest {
 	r.pageSize = &pageSize
 	return r
 }
@@ -794,6 +794,269 @@ func (a *DynamicAPIService) ModelPostExecute(r ApiModelPostRequest) (*QueryEntit
 	}
 
 	localVarPath := localBasePath + "/{model}"
+	localVarPath = strings.Replace(localVarPath, "{"+"model"+"}", url.PathEscape(parameterValueToString(r.model, "model")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.entity == nil {
+		return localVarReturnValue, nil, reportError("entity is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.entity
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+
+type ApiModelFilterDeleteRequest struct {
+	ctx context.Context
+	ApiService *DynamicAPIService
+	model string
+	filter *QueryQueryFilter
+}
+
+// Filter conditions
+func (r ApiModelFilterDeleteRequest) Filter(filter QueryQueryFilter) ApiModelFilterDeleteRequest {
+	r.filter = &filter
+	return r
+}
+
+func (r ApiModelFilterDeleteRequest) Execute() (map[string]interface{}, *http.Response, error) {
+	return r.ApiService.ModelFilterDeleteExecute(r)
+}
+
+/*
+ModelFilterDelete Delete multiple entities
+
+Delete multiple entities that match the provided query expression
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param model Model Name
+ @return ApiModelFilterDeleteRequest
+*/
+func (a *DynamicAPIService) DeleteWhere(ctx context.Context, model string) ApiModelFilterDeleteRequest {
+	return ApiModelFilterDeleteRequest{
+		ApiService: a,
+		ctx: ctx,
+		model: model,
+	}
+}
+
+// Execute executes the request
+//  @return map[string]interface{}
+func (a *DynamicAPIService) ModelFilterDeleteExecute(r ApiModelFilterDeleteRequest) (map[string]interface{}, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodDelete
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  map[string]interface{}
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DynamicAPIService.ModelFilterDelete")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/{model}/filter"
+	localVarPath = strings.Replace(localVarPath, "{"+"model"+"}", url.PathEscape(parameterValueToString(r.model, "model")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.filter == nil {
+		return localVarReturnValue, nil, reportError("filter is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.filter
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+
+type ApiModelFilterPutRequest struct {
+	ctx context.Context
+	ApiService *DynamicAPIService
+	model string
+	entity *QueryEntityWithRelations
+}
+
+// Entity Data
+func (r ApiModelFilterPutRequest) Entity(entity QueryEntityWithRelations) ApiModelFilterPutRequest {
+	r.entity = &entity
+	return r
+}
+
+func (r ApiModelFilterPutRequest) Execute() (map[string]interface{}, *http.Response, error) {
+	return r.ApiService.ModelFilterPutExecute(r)
+}
+
+/*
+ModelFilterPut Update multiple entities
+
+Update multiple entities that match the provided query expression
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param model Model Name
+ @return ApiModelFilterPutRequest
+*/
+func (a *DynamicAPIService) UpdateWhere(ctx context.Context, model string) ApiModelFilterPutRequest {
+	return ApiModelFilterPutRequest{
+		ApiService: a,
+		ctx: ctx,
+		model: model,
+	}
+}
+
+// Execute executes the request
+//  @return map[string]interface{}
+func (a *DynamicAPIService) ModelFilterPutExecute(r ApiModelFilterPutRequest) (map[string]interface{}, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPut
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  map[string]interface{}
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DynamicAPIService.ModelFilterPut")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/{model}/filter"
 	localVarPath = strings.Replace(localVarPath, "{"+"model"+"}", url.PathEscape(parameterValueToString(r.model, "model")), -1)
 
 	localVarHeaderParams := make(map[string]string)
