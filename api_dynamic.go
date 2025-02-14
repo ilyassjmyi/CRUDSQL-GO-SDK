@@ -84,7 +84,7 @@ func (a *DynamicAPIService) GetWhere(ctx context.Context, model string) ApiModel
 }
 
 
-func (a *DynamicAPIService) listen(ctx context.Context, model string, event string, callback func(event, model string, data interface{})) error {
+func (a *DynamicAPIService) Listen(ctx context.Context, model string, event string, callback func(event, model string, data interface{})) error {
 	ws, err := NewWebSocketClient(ctx, a.client.cfg.Host, model, event)
 	if err != nil {
 		return err
