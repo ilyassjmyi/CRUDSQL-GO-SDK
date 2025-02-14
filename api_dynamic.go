@@ -20,6 +20,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+
 )
 
 // DynamicAPIService DynamicAPI service
@@ -80,6 +81,22 @@ func (a *DynamicAPIService) GetWhere(ctx context.Context, model string) ApiModel
 		ctx: ctx,
 		model: model,
 	}
+}
+
+
+func (a *DynamicAPIService) listen(ctx context.Context, model string, event string, callback func(event, model string, data interface{})) error {
+	ws, err := NewWebSocketClient(ctx, a.client.cfg.Host, model, event)
+	if err != nil {
+		return err
+	}
+
+	ws.Listen(func(event, model string, data interface{}) {
+		callback(event, model, data)
+	})
+
+	return nil
+
+
 }
 
 // Execute executes the request
