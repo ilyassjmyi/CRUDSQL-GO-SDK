@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"log"
+	"net/http"
 	"net/url"
 
 	"github.com/gorilla/websocket"
@@ -15,8 +16,10 @@ type WebSocketClient struct {
 }
 
 // NewWebSocketClient creates a new WebSocket client
-func NewWebSocketClient(ctx context.Context, baseURL, model, event string) (*WebSocketClient, error) {
+func NewWebSocketClient(ctx context.Context, baseURL, key, model, event string) (*WebSocketClient, error) {
 	u := url.URL{Scheme: "ws", Host: baseURL, Path: "/api/ws/" + model + "/" + event}
+	headers := http.Header{}
+	headers.Add("Authorization", key)
 	conn, _, err := websocket.DefaultDialer.DialContext(ctx, u.String(), nil)
 	if err != nil {
 		return nil, err

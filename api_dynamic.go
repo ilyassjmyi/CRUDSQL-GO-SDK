@@ -85,7 +85,21 @@ func (a *DynamicAPIService) GetWhere(ctx context.Context, model string) ApiModel
 
 
 func (a *DynamicAPIService) Listen(ctx context.Context, model string, event string, callback func(event, model string, data interface{})) error {
-	ws, err := NewWebSocketClient(ctx, a.client.cfg.Host, model, event)
+	
+	//check if the config has X-API-KEY if not use Authorization key 
+	var key string
+	if x_api, ok := a.client.GetConfig().DefaultHeader["X-API-KEY"]; !ok {
+
+		if token, ok := a.client.GetConfig().DefaultHeader["Authorization"]; !ok {
+			return fmt.Errorf("No Authorization header found")
+		}else{
+			 key = token
+		}
+	}else {
+		key = x_api
+	}
+	
+	ws, err := NewWebSocketClient(ctx, a.client.cfg.Host,key,model, event)
 	if err != nil {
 		return err
 	}
@@ -95,8 +109,6 @@ func (a *DynamicAPIService) Listen(ctx context.Context, model string, event stri
 	})
 
 	return nil
-
-
 }
 
 // Execute executes the request
