@@ -20,7 +20,7 @@ func NewWebSocketClient(ctx context.Context, baseURL, key, model, event string) 
 	u := url.URL{Scheme: "ws", Host: baseURL, Path: "/api/ws/" + model + "/" + event}
 	headers := http.Header{}
 	headers.Add("Authorization", key)
-	conn, _, err := websocket.DefaultDialer.DialContext(ctx, u.String(), nil)
+	conn, _, err := websocket.DefaultDialer.DialContext(ctx, u.String(), headers)
 	if err != nil {
 		return nil, err
 	}

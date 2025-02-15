@@ -29,7 +29,7 @@ func Test_openapi_DynamicAPIService(t *testing.T) {
 
 	t.Run("Test DynamicAPIService ModelFilterPost", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		//	t.Skip("skip test") // remove to run test
 
 		var model string
 
